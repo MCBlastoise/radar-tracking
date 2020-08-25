@@ -13,11 +13,11 @@ def get_status(radar_path):
     table = document.tables[0]
     dates = []
     statuses = []
-    #Assign radar status based on font color (0-operational, 1-error, 2-down)
+    #Assign radar status based on font color (2-operational, 1-error, 0-down)
     value = {
-        '338800' : 0,
+        'FF0000' : 0,
         'FFFF33' : 1,
-        'FF0000' : 2
+        '338800' : 2
         }
     for row in table.rows:
         for cell in row.cells:
@@ -34,9 +34,9 @@ def get_status(radar_path):
 
 def write_csv(radar_path, data_path):
 
-    print('Getting Radar Statuses...')
+    print('Getting radar statuses...')
     dates, statuses = get_status(radar_path)
-    print('Radar Status completed')
+    print('Radar status completed')
 
     with open(os.path.splitext(radar_path)[0] + '.csv', 'w', newline='') as f:
         fieldnames = ['radar id', 'date', 'hr', 'min', 'yes/no lightning', 'flash count', 'radar status']
