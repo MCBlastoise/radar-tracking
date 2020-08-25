@@ -48,13 +48,13 @@ def write_csv(radar_path, data_path):
             monthday = calendar.monthrange(int(year),i)[1]
             #Days
             for j in range(1, monthday + 1):
+                print(f'Processing Day {j}...')
                 #Determine to use G16 or G17 based on radar location
                 sat = '17' if port_lon < -103 else '16'
                 os.system(f'./copyday.sh {str(year)}{str(i).zfill(2)}{str(j).zfill(2)} {sat}')
                 date = year + '-' + str(i).zfill(2) + '-' + str(j).zfill(2)
                 #Hours
                 for k in range(0,24):
-                    print(f'Processing Day {k}...')
                     #Minutes
                     for l in range(0,60):
                         ltg_count = count_GLM_min(data_path, radar_id, (k, l))
