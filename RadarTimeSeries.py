@@ -33,34 +33,47 @@ def get_status(radar_path):
     return dates, statuses
 
 def write_csv(radar_path, data_path):
+
+    print('Getting Radar Statuses...')
+    dates, statuses = get_status(radar_path)
+    print('Radar Status completed')
+
     with open(os.path.splitext(radar_path)[0] + '.csv', 'w', newline='') as f:
         fieldnames = ['radar id', 'date', 'hr', 'min', 'yes/no lightning', 'flash count', 'radar status']
         writer = csv.DictWriter(f, fieldnames=fieldnames)
         writer.writeheader()
 
-    #Months
-    for i in range(5,8):
-        monthday = calendar.monthrange(int(year),i)[1]
-        #Days
-        for j in range(1, monthday + 1):
-            #Determine to use G16 or G17 based on radar location
-            sat = '17' if port_lon < -103 else '16'
-            os.system(f'./copyday.sh {str(year)}{str(i).zfill(2)}{str(j).zfill(2)} {sat}')
-            date = year + '-' + str(i).zfill(2) + '-' + str(j).zfill(2)
-            #Hours
-            for k in range(0,24):
-                #Minutes
-                for l in range(0,60):
-                    ltg_count = count_GLM_min(data_path, radar_id, (k, l))
-                    ynl = 0 if ltg_count == 0 else 1
+        #Months
+        for i in range(5,8):
+            monthday = calendar.monthrange(int(year),i)[1]
+            #Days
+            for j in range(1, monthday + 1):
+                #Determine to use G16 or G17 based on radar location
+                sat = '17' if port_lon < -103 else '16'
+                os.system(f'./copyday.sh {str(year)}{str(i).zfill(2)}{str(j).zfill(2)} {sat}')
+                date = year + '-' + str(i).zfill(2) + '-' + str(j).zfill(2)
+                #Hours
+                for k in range(0,24):
+                    print(f'Processing Day {k}...')
+                    #Minutes
+                    for l in range(0,60):
+                        ltg_count = count_GLM_min(data_path, radar_id, (k, l))
+                        ltg_count = 'N/A' if ltg_count is None else ltg_count
+                        if ltg_count == 0:
+                            ynl = 0
+                        elif ltg_count > 0:
+                            ynl = 1
+                        else:
+                            ynl = 'N/A'
 
-                    #Iterating through cells to find status for each minute
-                    for ts, status in zip(get_status(radar_path)):
-                        if ts < (datetime(int(year), i, j, k, l) + timedelta(0, 60)):
-                            min_status = status
-                            break
-                    writer.writerow({'radar id' : radar_id, 'date' : date, 'hr' : str(k).zfill(2), 'min' : str(l).zfill(2),
-                                        'yes/no lightning' : ynl, 'flash count' : ltg_count,'radar status' : min_status})
+                        #Iterating through cells to find status for each minute
+                        for ts, status in zip(dates, statuses):
+                            if ts < (datetime(int(year), i, j, k, l) + timedelta(0, 60)):
+                                min_status = status
+                                break
+                        writer.writerow({'radar id' : radar_id, 'date' : date, 'hr' : str(k).zfill(2), 'min' : str(l).zfill(2),
+                                         'yes/no lightning' : ynl, 'flash count' : ltg_count,'radar status' : min_status})
+    print('Finished creating CSV')
 
 if __name__ == '__main__':
 
