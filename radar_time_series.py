@@ -49,64 +49,65 @@ def write_csv(radar_path, data_path):
                 writer1.writeheader()
                 writer2.writeheader()
                 writer3.writeheader()
-        #Months
-        for i in range(5,8):
-            monthday = calendar.monthrange(int(year),i)[1]
-            #Days
-            for j in range(1, monthday + 1):
-                print(f'Processing day {j}...')
-                #Determine to use G16 or G17 based on radar location
-                sat = '17' if port_lon < -103 else '16'
-                os.system(f'./copyday.sh {str(year)}{str(i).zfill(2)}{str(j).zfill(2)} {sat}')
-                if not len(os.listdir(data_path)):
-                    day_missing = True
-                    print(f'Data for {i}/{j} missing')
-                else:
-                    day_missing = False
-                date = year + '-' + str(i).zfill(2) + '-' + str(j).zfill(2)
-                #Hours
-                for k in range(0,24):
-                    #Minutes
-                    for l in range(0,60):
-                        if day_missing:
-                            radar_count = ynl = 'N/A'
+                
+                #Months
+                for i in range(5,8):
+                    monthday = calendar.monthrange(int(year),i)[1]
+                    #Days
+                    for j in range(1, monthday + 1):
+                        print(f'Processing day {j}...')
+                        #Determine to use G16 or G17 based on radar location
+                        sat = '17' if port_lon < -103 else '16'
+                        os.system(f'./copyday.sh {str(year)}{str(i).zfill(2)}{str(j).zfill(2)} {sat}')
+                        if not len(os.listdir(data_path)):
+                            day_missing = True
+                            print(f'Data for {i}/{j} missing')
                         else:
-                            radar_count = count_GLM_min(data_path, radar_id, (k, l))
-                            if radar_count is None:
-                                radar_count = ynl = 'N/A'
-                                print(f'Data in minute {l} missing')
-                            else:
-                                if radar_count == 0:
-                                    ynl = 0
-                                elif radar_count > 0:
-                                    ynl = 1
-                        #Iterating through cells to find status for each minute
-                        min_status = None
-                        for ts, status in zip(dates, statuses):
-                            if ts >= datetime(int(year), i, j, k, l, 0):
-                                min_status = status
-                                break
-                        if min_status is None:
-                            min_status = statuses[-1]
-                        if i == 5:
-                            writer1.writerow({'timestamp' : f'{date} {str(k).zfill(2)}:{str(l).zfill(2)}',
-                                             'yes/no lightning' : ynl,
-                                             'radar flash count' : radar_count,
-                                             'radar status' : min_status,
-                                             })
-                        elif i == 6:
-                            writer2.writerow({'timestamp' : f'{date} {str(k).zfill(2)}:{str(l).zfill(2)}',
-                                             'yes/no lightning' : ynl,
-                                             'radar flash count' : radar_count,
-                                             'radar status' : min_status,
-                                             })
-                        elif i == 7:
-                            writer3.writerow({'timestamp' : f'{date} {str(k).zfill(2)}:{str(l).zfill(2)}',
-                                             'yes/no lightning' : ynl,
-                                             'radar flash count' : radar_count,
-                                             'radar status' : min_status,
-                                             })
-                os.system(f'./deletedata.sh')
+                            day_missing = False
+                        date = year + '-' + str(i).zfill(2) + '-' + str(j).zfill(2)
+                        #Hours
+                        for k in range(0,24):
+                            #Minutes
+                            for l in range(0,60):
+                                if day_missing:
+                                    radar_count = ynl = 'N/A'
+                                else:
+                                    radar_count = count_GLM_min(data_path, radar_id, (k, l))
+                                    if radar_count is None:
+                                        radar_count = ynl = 'N/A'
+                                        print(f'Data in minute {l} missing')
+                                    else:
+                                        if radar_count == 0:
+                                            ynl = 0
+                                        elif radar_count > 0:
+                                            ynl = 1
+                                #Iterating through cells to find status for each minute
+                                min_status = None
+                                for ts, status in zip(dates, statuses):
+                                    if ts >= datetime(int(year), i, j, k, l, 0):
+                                        min_status = status
+                                        break
+                                if min_status is None:
+                                    min_status = statuses[-1]
+                                if i == 5:
+                                    writer1.writerow({'timestamp' : f'{date} {str(k).zfill(2)}:{str(l).zfill(2)}',
+                                                     'yes/no lightning' : ynl,
+                                                     'radar flash count' : radar_count,
+                                                     'radar status' : min_status,
+                                                     })
+                                elif i == 6:
+                                    writer2.writerow({'timestamp' : f'{date} {str(k).zfill(2)}:{str(l).zfill(2)}',
+                                                     'yes/no lightning' : ynl,
+                                                     'radar flash count' : radar_count,
+                                                     'radar status' : min_status,
+                                                     })
+                                elif i == 7:
+                                    writer3.writerow({'timestamp' : f'{date} {str(k).zfill(2)}:{str(l).zfill(2)}',
+                                                     'yes/no lightning' : ynl,
+                                                     'radar flash count' : radar_count,
+                                                     'radar status' : min_status,
+                                                     })
+                        os.system(f'./deletedata.sh')
     print('Finished creating CSV')
 
 if __name__ == '__main__':
