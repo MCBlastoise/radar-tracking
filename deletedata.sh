@@ -1,5 +1,5 @@
 #!/bin/sh
 
-copydir=/var/www/html/projects/airports/Radar/Data/
+copydir=/home/ayyub/Radar/Data/
 rm ${copydir}*
 echo All data deleted
