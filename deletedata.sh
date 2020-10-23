@@ -1,5 +1,6 @@
 #!/bin/sh
 
-copydir=/home/ayyub/Radar/Data/
+copydir=${1}
+
 rm ${copydir}*
 echo All data deleted
