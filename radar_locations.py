@@ -260,6 +260,15 @@ radars = {
         "elevation": "683",
         "height": "20"
     },
+    "KDGX": {
+        "wban": "N/A",
+        "staid": "KDGX",
+        "stname": "Brandon, MS",
+        "latitude": "32.2800",
+        "longitude": "-89.9843",
+        "elevation": "N/A",
+        "height": "N/A"
+    },
     "KDVN": {
         "wban": "94982",
         "staid": "KDVN",
@@ -358,6 +367,15 @@ radars = {
         "longitude": "-106.6980556",
         "elevation": "4104",
         "height": "30"
+    },
+    "KLGX": {
+        "wban": "N/A",
+        "staid": "KLGX",
+        "stname": "Langley Hill, WA",
+        "latitude": "47.11889",
+        "longitude": "-124.106",
+        "elevation": "N/A",
+        "height": "N/A"
     },
     "KLRX": {
         "wban": "4108",
@@ -502,6 +520,15 @@ radars = {
         "longitude": "-111.3852778",
         "elevation": "3714",
         "height": "10"
+    },
+    "KTYX": {
+        "wban": "N/A",
+        "staid": "KTYX",
+        "stname": "Montague, NY",
+        "latitude": "43.7558",
+        "longitude": "-75.68",
+        "elevation": "N/A",
+        "height": "N/A"
     },
     "KGRB": {
         "wban": "14898",
@@ -718,6 +745,15 @@ radars = {
         "longitude": "-119.1794444",
         "elevation": "2726",
         "height": "20"
+    },
+    "KVWX": {
+        "wban": "N/A",
+        "staid": "KVWX",
+        "stname": "Evansville, IN",
+        "latitude": "38.2666",
+        "longitude": "-87.7166",
+        "elevation": "N/A",
+        "height": "N/A"
     },
     "KLVX": {
         "wban": "53827",
@@ -1186,6 +1222,15 @@ radars = {
         "longitude": "-159.5522222",
         "elevation": "179",
         "height": "30"
+    },
+    "PHKM": {
+        "wban": "N/A",
+        "staid": "PHKM",
+        "stname": "Kohala, HI",
+        "latitude": "20.0944",
+        "longitude": "-155.7469",
+        "elevation": "N/A",
+        "height": "N/A"
     },
     "PHWA": {
         "wban": "PENDING",
