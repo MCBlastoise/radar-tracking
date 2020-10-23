@@ -46,7 +46,7 @@ def find_file(data_direc, h, m):
 def count_GLM_min(data_direc, code, time, radius=100):
     port_lon, port_lat = read_radar_coords(code)
     direc_iter = sorted(os.listdir(data_direc))
-    ltg_count = 0
+    radar_count = 0
     if len(direc_iter) == 4320:
         start = calc_GLM_index(time[0], time[1])
     else:
@@ -61,16 +61,16 @@ def count_GLM_min(data_direc, code, time, radius=100):
             if near_CONUS(lon, lat, radius):
                 dist = geopy.distance.great_circle((port_lat, port_lon), (lat, lon)).kilometers
                 if dist <= radius:
-                    ltg_count += 1
+                    radar_count += 1
 
-    return ltg_count
+    return radar_count
 
 def all_count_GLM_min(data_direc, code, time, radius=100):
     port_lon, port_lat = read_radar_coords(code)
     direc_iter = sorted(os.listdir(data_direc))
     total_count = 0
     conus_count = 0
-    ltg_count = 0
+    radar_count = 0
     if len(direc_iter) == 4320:
         start = calc_GLM_index(time[0], time[1])
     else:
@@ -87,9 +87,9 @@ def all_count_GLM_min(data_direc, code, time, radius=100):
                 conus_count += 1
                 dist = geopy.distance.great_circle((port_lat, port_lon), (lat, lon)).kilometers
                 if dist <= radius:
-                    ltg_count += 1
+                    radar_count += 1
 
-    return total_count, conus_count, ltg_count
+    return total_count, conus_count, radar_count
 
 def near_CONUS(lon, lat, radius=100):
 
@@ -118,18 +118,14 @@ def near_CONUS(lon, lat, radius=100):
     if lon < min_lon:
         if lon > min_lon_100km and (min_lat_100km < lat < max_lat_100km):
             return True
-
     elif lon > max_lon:
         if lon < max_lon_100km and (min_lat_100km < lat < max_lat_100km):
             return True
-
     elif lat < min_lat:
         if lat > min_lat_100km and (min_lon_100km < lon < max_lon_100km):
             return True
-
     elif lat > max_lat:
         if lat < max_lat_100km and (min_lon_100km < lon < max_lon_100km):
             return True
-
     else:
         return False
