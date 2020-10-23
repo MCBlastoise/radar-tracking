@@ -2,12 +2,12 @@
 
 date=${1}
 sat=${2}
+copydir=${3}
 
 year=${date:0:4}
 month=${date:4:2}
 day=${date:6:2}
 
-copydir=/home/ayyub/Radar/Data/
 if [[ "${year}" == "2020" ]]
 then
     datadir=/data_lightning/srudlosky/share/GLM/
