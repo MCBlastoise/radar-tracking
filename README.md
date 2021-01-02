@@ -1,5 +1,5 @@
 # radar-tracking
-The goal of this project is to assess the value of Geostationary Lightning Mapper observations in contrast to ground-based radar, by way of analyzing lightning observations in proximity to various radar across the US during operational and nonoperational periods, during the months of May, June, and July.
+The goal of this project is to assess the value of Geostationary Lightning Mapper observations in contrast to ground-based radar, by way of analyzing lightning observations in proximity to various radar across the US during operational and nonoperational periods, over a three-month span from May through July.
 
 ## Tools
 The project uses Python and Bash, and the directory structure is identical to that of this Github (minus the CSVs / product files already existing). It made use of 4 main Python scripts, 3 Bash scripts for the automation of copying data, deleting data, and automating the analyis process, as well as a reference Python file containing coordinates of radar.
